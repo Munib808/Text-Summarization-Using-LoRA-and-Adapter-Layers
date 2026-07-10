@@ -1,0 +1,7 @@
+streamlit>=1.36
+torch>=2.1
+transformers>=4.40
+peft>=0.11
+safetensors>=0.4
+pandas>=2.0
+sentencepiece>=0.1.99
