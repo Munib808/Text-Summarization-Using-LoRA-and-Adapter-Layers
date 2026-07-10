@@ -5,3 +5,4 @@ peft>=0.11
 safetensors>=0.4
 pandas>=2.0
 sentencepiece>=0.1.99
+torchvision==0.22.1
