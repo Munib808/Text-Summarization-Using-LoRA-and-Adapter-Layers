@@ -144,20 +144,10 @@ def load_model(adapter_path: str):
     """
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    # Keep CPU thread usage modest to avoid memory/CPU spikes on constrained hosts
-    try:
-        torch.set_num_threads(2)
-    except Exception:
-        pass
-
     tokenizer_source = adapter_path if _has_tokenizer_files(adapter_path) else BASE_MODEL_NAME
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_source)
 
-    base_model = AutoModelForSeq2SeqLM.from_pretrained(
-        BASE_MODEL_NAME,
-        low_cpu_mem_usage=True,
-        torch_dtype=torch.float32,
-    )
+    base_model = AutoModelForSeq2SeqLM.from_pretrained(BASE_MODEL_NAME)
 
     adapter_dir = Path(adapter_path)
     standard_config = adapter_dir / "adapter_config.json"
@@ -250,8 +240,14 @@ def generate_summary(bundle, dialogue_text, max_new_tokens, num_beams, do_sample
 with st.sidebar:
     st.markdown("### ⚙️ Configuration")
 
-    adapter_path = "./lora_model"
+    adapter_path = st.text_input(
+        "LoRA artifact folder",
+        value="./lora_model",
+        help="Path to the folder containing your exported LoRA adapter files "
+             "(lora_config, lora_model.safetensors, tokenizer files, etc.)",
+    )
 
+    st.markdown("---")
     st.markdown("### 🎛️ Generation settings")
     max_new_tokens = st.slider("Max summary length (tokens)", 20, 200, 100, step=10)
     num_beams = st.slider("Beam search width", 1, 8, 4)
@@ -334,7 +330,7 @@ with tab_summarize:
             placeholder="Alice: Hey, are you free tonight?\nBob: Yeah, what's up?\n...",
         )
 
-        generate_clicked = st.button("✨ Generate summary", width="stretch", disabled=bundle is None)
+        generate_clicked = st.button("✨ Generate summary", use_container_width=True, disabled=bundle is None)
 
     with right:
         st.markdown("#### Summary")
@@ -372,7 +368,7 @@ with tab_benchmarks:
         "ROUGE-1": "{:.4f}", "ROUGE-2": "{:.4f}", "ROUGE-L": "{:.4f}",
         "BERTScore F1": "{:.4f}", "Latency (s)": "{:.3f}",
         "Trainable params (%)": "{:.3f}", "Train time (min)": "{:.1f}",
-    }), width="stretch", hide_index=True)
+    }), use_container_width=True, hide_index=True)
 
     chart_cols = st.columns(2)
     with chart_cols[0]:
