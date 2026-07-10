@@ -238,14 +238,6 @@ def generate_summary(bundle, dialogue_text, max_new_tokens, num_beams, do_sample
 # Sidebar
 # ----------------------------------------------------------------------
 with st.sidebar:
-    st.markdown("### ⚙️ Configuration")
-
-    adapter_path = st.text_input(
-        "LoRA artifact folder",
-        value="./lora_model",
-        help="Path to the folder containing your exported LoRA adapter files "
-             "(lora_config, lora_model.safetensors, tokenizer files, etc.)",
-    )
 
     st.markdown("---")
     st.markdown("### 🎛️ Generation settings")
