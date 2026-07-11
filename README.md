@@ -14,6 +14,7 @@ Built on `google/flan-t5-large` and the [SAMSum Corpus](https://huggingface.co/d
 | `text-summarizartion-using-lora-and-adapters.ipynb` | End-to-end notebook: data exploration → prompting baselines → LoRA fine-tuning → Adapter fine-tuning → benchmarking → model export |
 | `app.py` | Streamlit inference app that loads the exported LoRA adapter and generates summaries interactively |
 | `requirements.txt` | Python dependencies |
+| `lora_model` | Essential model files |
 
 ---
 
